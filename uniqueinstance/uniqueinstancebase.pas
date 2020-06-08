@@ -5,10 +5,10 @@ unit UniqueInstanceBase;
 interface
 
 uses
-  Classes, SysUtils, simpleipc, LazUTF8;
+  Classes, SysUtils, simpleipc;
 
 const
-  ParamsSeparator = '|';
+  ParamsSeparator = #13;
 
 var
   FIPCServer: TSimpleIPCServer;
@@ -20,6 +20,9 @@ function GetFormattedParams: String;
 function GetServerId(const Identifier: String): String;
 
 implementation
+
+uses
+  LazUTF8;
 
 const
   BaseServerId = 'tuniqueinstance_';
@@ -42,7 +45,7 @@ var
 begin
   Result := '';
   for i := 1 to ParamCount do
-    Result := Result + ParamStrUTF8(i) + ParamsSeparator; //AT fix (utf8)
+    Result := Result + ParamStrUTF8(i) + ParamsSeparator;
 end;
 
 function GetServerId(const Identifier: String): String;
@@ -50,7 +53,7 @@ begin
   if Identifier <> '' then
     Result := BaseServerId + Identifier
   else
-    Result := BaseServerId + ExtractFileName(ParamStrUTF8(0)); //AT fix
+    Result := BaseServerId + ExtractFileName(ParamStrUTF8(0));
 end;
 
 finalization
